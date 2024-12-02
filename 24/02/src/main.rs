@@ -1,9 +1,8 @@
 fn parse_line(line: &str) -> Vec<i32> {
     use std::str::FromStr;
-    return line
-        .split(" ")
+    line.split(" ")
         .map(|part| i32::from_str(part).unwrap())
-        .collect();
+        .collect()
 }
 
 /// Report is safe if:
@@ -14,7 +13,8 @@ fn is_report_safe(report: Vec<i32>) -> bool {
         report.is_sorted_by(|a, b| a < b) || report.is_sorted_by(|a, b| a > b);
     // dirty-ish way to emulate itertools::Itertools::tuple_windows using is_sorted_by
     let has_correct_deltas = report.is_sorted_by(|a, b| (1..=3).contains(&(a - b).abs()));
-    return is_order_consistent && has_correct_deltas;
+
+    is_order_consistent && has_correct_deltas
 }
 
 /// Report is safe if:
@@ -35,21 +35,19 @@ fn is_report_safe_with_tolerance(report: Vec<i32>) -> bool {
 }
 
 fn solve_part_1(input: &String) -> i32 {
-    let solution = input
+    input
         .lines()
         .map(parse_line)
         .map(is_report_safe)
-        .fold(0, |acc, value| acc + i32::from(value));
-    solution
+        .fold(0, |acc, value| acc + i32::from(value))
 }
 
 fn solve_part_2(input: &String) -> i32 {
-    let solution = input
+    input
         .lines()
         .map(parse_line)
         .map(is_report_safe_with_tolerance)
-        .fold(0, |acc, value| acc + i32::from(value));
-    solution
+        .fold(0, |acc, value| acc + i32::from(value))
 }
 
 fn main() {
